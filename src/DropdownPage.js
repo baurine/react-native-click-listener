@@ -10,6 +10,19 @@ class DropdownPage extends Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener('click', this.globalClickListener)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.globalClickListener)
+  }
+
+  globalClickListener = (e) => {
+    console.log('global click')
+    this.setState({dropdownVisible: false})
+  }
+
   toggleDropdown = (e) => {
     this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}))
   }
@@ -21,7 +34,8 @@ class DropdownPage extends Component {
 
   renderDropdownMenu() {
     return (
-      <div className='dropdown-body' onBlur={this.handleBlur}>
+      // <div className='dropdown-body' onBlur={this.handleBlur}>
+      <div className='dropdown-body'>
         <div>
           <input type='checkbox'/><span>option 1</span>
         </div>
