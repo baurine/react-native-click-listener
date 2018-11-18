@@ -14,9 +14,14 @@ class DropdownPage extends Component {
     this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}))
   }
 
+  handleBlur = (e) => {
+    console.log('on blur')
+    this.setState({dropdownVisible: false})
+  }
+
   renderDropdownMenu() {
     return (
-      <div className='dropdown-body'>
+      <div className='dropdown-body' onBlur={this.handleBlur}>
         <div>
           <input type='checkbox'/><span>option 1</span>
         </div>

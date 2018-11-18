@@ -2,7 +2,6 @@
   /* must assign container position as relative */
   position: relative;
   width: 200px;
-  /* padding: 20px; */
 }
 
 .dropdown-trigger {
@@ -11,7 +10,7 @@
 
 .dropdown-body {
   position: absolute;
-  top: 100%;
+  /* top: 100%; */
   width: 100%;
   padding: 10px;
 
