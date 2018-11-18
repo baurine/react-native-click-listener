@@ -10,9 +10,9 @@ class DropdownPage extends Component {
     }
   }
 
-  componentDidMount() {
-    document.addEventListener('click', this.globalClickListener)
-  }
+  // componentDidMount() {
+  //   document.addEventListener('click', this.globalClickListener)
+  // }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.globalClickListener)
@@ -20,11 +20,17 @@ class DropdownPage extends Component {
 
   globalClickListener = (e) => {
     console.log('global click')
-    this.setState({dropdownVisible: false})
+    this.setState({dropdownVisible: false}, () => {
+      document.removeEventListener('click', this.globalClickListener)
+    })
   }
 
   toggleDropdown = (e) => {
-    this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}))
+    this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
+      if (this.state.dropdownVisible) {
+        document.addEventListener('click', this.globalClickListener)
+      }
+    })
   }
 
   handleBlur = (e) => {
