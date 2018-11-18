@@ -1,0 +1,22 @@
+.dropdown-container {
+  /* must assign container position as relative */
+  position: relative;
+  width: 200px;
+  /* padding: 20px; */
+}
+
+.dropdown-trigger {
+  padding: 10px 0px;
+}
+
+.dropdown-body {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  padding: 10px;
+
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px #888888;
+
+  z-index: 2;
+}
