@@ -68,6 +68,7 @@ class DropdownPage extends Component {
   render() {
     return (
       <div className='dropdown-container'>
+        <button onClick={(e)=>e.stopPropagation()}>stop propagation</button>
         <div className='dropdown-trigger'>
           <button onClick={this.toggleDropdown}>
             dropdown trigger
