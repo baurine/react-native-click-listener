@@ -38,9 +38,12 @@ class DropdownPage extends Component {
     this.setState({dropdownVisible: false})
   }
 
-  handleBodyClick = (e) => {
+  handleBodyClick = (event) => {
     console.log('body click')
-    e.stopPropagation()
+    console.log(event)
+    console.log(event.nativeEvent)
+    console.log(event.nativeEvent.path)
+    event.stopPropagation()
   }
 
   renderDropdownMenu() {
