@@ -15,20 +15,24 @@ class DropdownPage extends Component {
   // }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.globalClickListener)
+    // document.removeEventListener('click', this.globalClickListener)
+    window.removeEventListener('click', this.globalClickListener)
   }
 
   globalClickListener = (e) => {
     console.log('global click')
     this.setState({dropdownVisible: false}, () => {
-      document.removeEventListener('click', this.globalClickListener)
+      // document.removeEventListener('click', this.globalClickListener)
+      window.removeEventListener('click', this.globalClickListener)
     })
   }
 
   toggleDropdown = (e) => {
+    console.log('toggle dropdown')
     this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
       if (this.state.dropdownVisible) {
-        document.addEventListener('click', this.globalClickListener)
+        // document.addEventListener('click', this.globalClickListener)
+        window.addEventListener('click', this.globalClickListener)
       }
     })
   }
