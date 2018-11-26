@@ -29,6 +29,7 @@ class DropdownPage extends Component {
 
   toggleDropdown = (syntheticEvent) => {
     console.log('toggle dropdown')
+    syntheticEvent.stopPropagation()
     this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
       if (this.state.dropdownVisible) {
         // document.addEventListener('click', this.globalClickListener)
