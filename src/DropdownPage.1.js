@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './DropdownPage.css';
-import NativeClickListener from './NativeClickListener';
 
 class DropdownPage extends Component {
   constructor(props) {
@@ -11,9 +10,30 @@ class DropdownPage extends Component {
     }
   }
 
+  // componentDidMount() {
+  //   document.addEventListener('click', this.globalClickListener)
+  // }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.globalClickListener)
+  }
+
+  globalClickListener = (nativeEvent) => {
+    console.log('global click')
+    // ignore click event happened inside the dropdown menu
+    if (this._dropdown_body && this._dropdown_body.contains(nativeEvent.target)) return
+    this.setState({dropdownVisible: false}, () => {
+      document.removeEventListener('click', this.globalClickListener)
+    })
+  }
+
   toggleDropdown = (syntheticEvent) => {
     console.log('toggle dropdown')
-    this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}))
+    this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
+      if (this.state.dropdownVisible) {
+        document.addEventListener('click', this.globalClickListener)
+      }
+    })
   }
 
   handleBodyClick = (syntheticEvent) => {
@@ -23,6 +43,7 @@ class DropdownPage extends Component {
   renderDropdownMenu() {
     return (
       <div className='dropdown-body'
+           ref={ref=>this._dropdown_body=ref}
            onClick={this.handleBodyClick}>
         <div>
           <input type='checkbox'/><span>option 1</span>
@@ -37,6 +58,7 @@ class DropdownPage extends Component {
   render() {
     return (
       <div className='dropdown-container'>
+        <button onClick={(e)=>e.stopPropagation()}>stop propagation</button>
         <div className='dropdown-trigger'>
           <button onClick={this.toggleDropdown}>
             dropdown trigger
@@ -44,9 +66,7 @@ class DropdownPage extends Component {
         </div>
         {
           this.state.dropdownVisible &&
-          <NativeClickListener onClick={()=>this.setState({dropdownVisible: false})}>
-            { this.renderDropdownMenu() }
-          </NativeClickListener>
+          this.renderDropdownMenu()
         }
       </div>
     )
