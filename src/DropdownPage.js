@@ -19,7 +19,7 @@ class DropdownPage extends Component {
     window.removeEventListener('click', this.globalClickListener)
   }
 
-  globalClickListener = (e) => {
+  globalClickListener = (nativeEvent) => {
     console.log('global click')
     this.setState({dropdownVisible: false}, () => {
       // document.removeEventListener('click', this.globalClickListener)
@@ -27,7 +27,7 @@ class DropdownPage extends Component {
     })
   }
 
-  toggleDropdown = (e) => {
+  toggleDropdown = (syntheticEvent) => {
     console.log('toggle dropdown')
     this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
       if (this.state.dropdownVisible) {
@@ -37,17 +37,17 @@ class DropdownPage extends Component {
     })
   }
 
-  handleBlur = (e) => {
+  handleBlur = (syntheticEvent) => {
     console.log('on blur')
     this.setState({dropdownVisible: false})
   }
 
-  handleBodyClick = (event) => {
+  handleBodyClick = (syntheticEvent) => {
     console.log('body click')
-    console.log(event)
-    console.log(event.nativeEvent)
-    console.log(event.nativeEvent.path)
-    event.stopPropagation()
+    console.log(syntheticEvent)
+    console.log(syntheticEvent.nativeEvent)
+    console.log(syntheticEvent.nativeEvent.path)
+    syntheticEvent.stopPropagation()
   }
 
   renderDropdownMenu() {
