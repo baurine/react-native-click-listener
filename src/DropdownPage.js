@@ -11,10 +11,11 @@ class DropdownPage extends Component {
     }
   }
 
-  toggleDropdown = (syntheticEvent) => {
-    console.log('toggle dropdown')
-    this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}))
-  }
+  // toggleDropdown = (syntheticEvent) => {
+  //   console.log('toggle dropdown')
+  //   // this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}))
+  //   this.setState({dropdownVisible: true})
+  // }
 
   handleBodyClick = (syntheticEvent) => {
     console.log('body click')
@@ -38,7 +39,8 @@ class DropdownPage extends Component {
     return (
       <div className='dropdown-container'>
         <div className='dropdown-trigger'>
-          <button onClick={this.toggleDropdown}>
+          {/* <button onClick={this.toggleDropdown}> */}
+          <button onClick={()=>this.setState({dropdownVisible: true})}>
             dropdown trigger
           </button>
         </div>
