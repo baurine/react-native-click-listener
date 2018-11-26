@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './DropdownPage.css';
 
-class DropdownPage extends Component {
+class DropdownPage1 extends Component {
   constructor(props) {
     super(props)
 
@@ -73,4 +73,4 @@ class DropdownPage extends Component {
   }
 }
 
-export default DropdownPage;
+export default DropdownPage1;
