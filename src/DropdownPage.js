@@ -15,46 +15,36 @@ class DropdownPage extends Component {
   // }
 
   componentWillUnmount() {
-    // document.removeEventListener('click', this.globalClickListener)
-    window.removeEventListener('click', this.globalClickListener)
+    document.removeEventListener('click', this.globalClickListener)
   }
 
   globalClickListener = (nativeEvent) => {
     console.log('global click')
+    // ignore click event happened inside the dropdown menu
+    if (this._dropdown_body && this._dropdown_body.contains(nativeEvent.target)) return
     this.setState({dropdownVisible: false}, () => {
-      // document.removeEventListener('click', this.globalClickListener)
-      window.removeEventListener('click', this.globalClickListener)
+      document.removeEventListener('click', this.globalClickListener)
     })
   }
 
   toggleDropdown = (syntheticEvent) => {
     console.log('toggle dropdown')
-    syntheticEvent.stopPropagation()
     this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
       if (this.state.dropdownVisible) {
-        // document.addEventListener('click', this.globalClickListener)
-        window.addEventListener('click', this.globalClickListener)
+        document.addEventListener('click', this.globalClickListener)
       }
     })
   }
 
-  handleBlur = (syntheticEvent) => {
-    console.log('on blur')
-    this.setState({dropdownVisible: false})
-  }
-
   handleBodyClick = (syntheticEvent) => {
     console.log('body click')
-    console.log(syntheticEvent)
-    console.log(syntheticEvent.nativeEvent)
-    console.log(syntheticEvent.nativeEvent.path)
-    syntheticEvent.stopPropagation()
   }
 
   renderDropdownMenu() {
     return (
-      // <div className='dropdown-body' onBlur={this.handleBlur}>
-      <div className='dropdown-body' onClick={this.handleBodyClick}>
+      <div className='dropdown-body'
+           ref={ref=>this._dropdown_body=ref}
+           onClick={this.handleBodyClick}>
         <div>
           <input type='checkbox'/><span>option 1</span>
         </div>
