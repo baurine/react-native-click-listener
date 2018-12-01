@@ -111,7 +111,7 @@ Effect:
 
 ![](./notes/11.gif)
 
-We even can dismiss the dropdown menu by clicking a part of elements inside the menu.
+We even can dismiss the dropdown menu by clicking only a part of elements inside the menu.
 
     {
       this.state.dropdownVisible &&

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './DropdownPage.css';
 import NativeClickListener from './NativeClickListener';
 
-class DropdownPage extends Component {
+export default class DropdownPage extends Component {
   constructor(props) {
     super(props)
 
@@ -65,5 +65,3 @@ class DropdownPage extends Component {
     )
   }
 }
-
-export default DropdownPage;

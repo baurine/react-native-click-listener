@@ -10,7 +10,7 @@ Let's implement a primitive dropdown first.
     import React, { Component } from 'react';
     import './DropdownPage.css';
 
-    class DropdownPage extends Component {
+    export default class DropdownPage extends Component {
       constructor(props) {
         super(props)
         this.state = {
@@ -52,8 +52,6 @@ Let's implement a primitive dropdown first.
       }
     }
 
-    export default DropdownPage;
-
 The css file:
 
     // DropdownPage.css
@@ -85,11 +83,17 @@ How does it look like now:
 
 ![](./1.gif)
 
+## Requirement
+
 Now we can open and hide the dropdown menu by clicking the trigger button, but can't dimiss it by clicking outside the dropdown container.
 
-## Try `onBlur` callback
+So how can we do that, how can we receive the click event outside the dropdown container.
 
-So how can we do that, how can we receive the click event outside the dropdown container. If you are a newbie in frontend and React like me in months ago, after reading the React document, you may think the `onBlur` callback can help us to know something happend outside the component.
+## Some attempts
+
+### 1 - Try `onBlur` callback
+
+If you are a newbie in frontend and React like me in months ago, after reading the React document, you may think the `onBlur` callback can help us to know something happend outside the component.
 
     handleBlur = (e) => {
       console.log('on blur')
@@ -117,7 +121,7 @@ It works! but, just some times, not always. `onBlur` callback is called only aft
 
 So `onBlur` is not our choice.
 
-## Try `document.addEventListener()`
+### 2 - Try `document.addEventListener()`
 
 Let's recall how we implement dropdown by original JavaScript without any framework. we use `document.addEventListener('click', clickHandler)` to listen the click event happened anywhere, why not try it in React as well.
 
@@ -140,7 +144,7 @@ The effect:
 
 ![](./3.gif)
 
-## Dynamically call `document.addEventListener()`
+#### Dynamically call `document.addEventListener()`
 
 Err... seems the dropdown menu can't display anymore, why this happens? It is because the clicking button will trigger global click event as well. It seems we should add and remove the global click listener dynamically, only add it after dropdown menu displaying, and remove it after dropdown menu dismissing.
 
@@ -173,7 +177,7 @@ The effect:
 
 It works perfect when clicking outside the component, but, wait, why the dropdown menu dismisses when choosing the option inside the menu. If this is the expected result for you, because some dorpdown menus should dismiss by clicking anywhere even inside the menu after it opens, that's enough, we can stop, but here we want to keep it open if clicking inside the menu, so let's continue.
 
-## `event.stopPropagation()` secret
+#### `event.stopPropagation()` secret
 
 The reason is same as above, because now we have listened the global click event, clicking inside the menu will trigger the global click handler as well, so we should stop the event propagate to document, the `event.stopPropagation()` API can do that, so let's add it for clicking inside the menu.
 
@@ -237,7 +241,7 @@ Before trying that, let's summarize what the React Synthetic Event's `stopPropga
 1. Stop the native event propagte to window object
 1. Stop the React synthetic event propgate to parent React components
 
-## Try `window.addEventListener()`
+### 3 - Try `event.stopPropagation()` and `window.addEventListener()`
 
 Let's listen the native global click event in window object.
 
@@ -268,7 +272,7 @@ The effect:
 
 ![](./7.gif)
 
-It looks much worse than before, even the dropdown can't open, don't worry, let's see what happened.
+It looks worse than before, even the dropdown can't open, don't worry, let's see what happened.
 
 When we click the toggle button, `toggleDropdown()` is called, dropdownVisible is set to true, then we register the global native click listener in window, and the current native click event propagates to window object immediately, global native click listener is called, dropdownVisible is set to false, so finally, the dropdown menu doesn't open.
 
@@ -293,7 +297,7 @@ Finally it works perfect as we expect.
 
 But, I need to say, it works at most time, but it is not really perfect. I just found it some time later when there are more than one dropdown menu in the same page.
 
-## Pitfall
+#### `event.stopPropagation()` and `window.addEventListener()` pitfall
 
 It is easy to understand, if there are 2 dropdown menus in the same page, when I open the first dropdown menu, then I click the second dropdown menu trigger button, because we call the `syntheticEvent.stopPropagation()` inside the trigger button click handler, so global native click handler won't be called, the first dropdown menu can't be dismissed.
 
@@ -314,7 +318,7 @@ The effect:
 
 So, listening global native click event in window object and stopping propgataion is not the perfect way, we need to find a better solution.
 
-## Try `node.contains()`
+### 4 - Try `node.contains()` and `document.addEventListener()`
 
 There is a DOM API called `node.contains(otherNode)`, it is used to check whether one node is inside in another node. So we can use this API to differ a click event happens inside the dropdown menu or outside it.
 
@@ -366,7 +370,7 @@ The effect:
 
 ![](./10.gif)
 
-## Wrap to NativeClickListener component
+### 5 - Wrap to NativeClickListener component
 
 Ok, now it finally works well as we expect, but let's go forward one step, if you have multiple dropdown menus in you project, you don't want to write the same code again and again, right? it makes sense to wrap it as an individual component, let's call it as NativeClickListener.
 
@@ -530,3 +534,31 @@ Usage:
 Final effect:
 
 ![](./11.gif)
+
+We even can dismiss the dropdown menu by clicking only a part of elements inside the menu.
+
+    {
+      this.state.dropdownVisible &&
+      <NativeClickListener
+        onClick={()=>this.setState({dropdownVisible: false})}>
+        <div className='dropdown-body'>
+          <div>
+            <input type='checkbox'/><span>option 1</span>
+          </div>
+          <div>
+            <input type='checkbox'/><span>option 2</span>
+          </div>
+          <button onClick={()=>this.setState({dropdownVisible: false})}>
+            OK
+          </button>
+        </div>
+      </NativeClickListener>
+    }
+
+Effect:
+
+![](./12.gif)
+
+## Conclusion
+
+We wrap a React Component called NativeClickListener by `node.contains()` and `document.addEventLister()` API to listent the global native click event to help us dismiss the dropdown menu easily.
