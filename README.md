@@ -1,6 +1,6 @@
 # NativeClickListener
 
-A React helper component to listen the global native click event, can be used to implement the Dropdown menu easily.
+A React helper component to listen the global native click event, can be used to implement the dropdown menu easily.
 
 ## Description
 
@@ -111,7 +111,7 @@ Effect:
 
 ![](./notes/11.gif)
 
-We even can dismiss the Dropdown menu by clicking a part of elements inside the menu.
+We even can dismiss the dropdown menu by clicking a part of elements inside the menu.
 
     {
       this.state.dropdownVisible &&
@@ -137,7 +137,7 @@ Effect:
 
 ## Notes
 
-- [How to implement a perfect React Dropdown component](./notes/implement-react-drop-down.md)
+- [How to implement a perfect React dropdown component](./notes/implement-react-drop-down.md)
 
 ## Related Projects
 

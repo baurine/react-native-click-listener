@@ -1,10 +1,10 @@
-# How to implement a perfect React Dropdown component
+# How to implement a perfect React dropdown component
 
 Dropdown is a very common component but a little different with other components, it needs to be dismissed when you click anywhere outside the dropdown component, but how does a React component handle the event happend outside it and its parent container?
 
-## Primitive Dropdown
+## Implement a basic dropdown in React
 
-Let's implement a primitive Dropdown first.
+Let's implement a primitive dropdown first.
 
     // DropdownPage.js
     import React, { Component } from 'react';
