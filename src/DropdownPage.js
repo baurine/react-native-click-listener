@@ -32,6 +32,9 @@ class DropdownPage extends Component {
                 <div>
                   <input type='checkbox'/><span>option 2</span>
                 </div>
+                <button onClick={()=>this.setState({dropdownVisible: false})}>
+                  OK
+                </button>
               </div>
             </NativeClickListener>
           }
