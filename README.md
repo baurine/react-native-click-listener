@@ -7,16 +7,18 @@ A React helper component to listen the global native click event, can be used to
 ### Implementation
 
     import React from 'react'
-    import propTypes from 'prop-types'
+    import PropTypes from 'prop-types'
 
     export default class NativeClickListener extends React.Component {
       static propsType = {
-        listenInside: propTypes.bool,
-        onClick: propTypes.func
+        listenInside: PropTypes.bool,
+        onClick: PropTypes.func,
+        containerStyle: PropTypes.string
       }
 
       static defaultProps = {
-        listenInside: false
+        listenInside: false,
+        containerStyle: ''
       }
 
       componentDidMount() {
@@ -37,7 +39,8 @@ A React helper component to listen the global native click event, can be used to
 
       render() {
         return (
-          <div ref={ref=>this._container=ref}>
+          <div className={this.props.containerStyle}
+               ref={ref=>this._container=ref}>
             { this.props.children }
           </div>
         )
@@ -137,7 +140,7 @@ Effect:
 
 ## Notes
 
-- [How to implement a perfect React dropdown component](./notes/implement-react-drop-down.md)
+- [How to Implement a Perfect React Dropdown Component from Zero](./notes/implement-react-drop-down.md)
 
 ## Related Projects
 

@@ -1,14 +1,16 @@
 import React from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 export default class NativeClickListener extends React.Component {
   static propsType = {
-    listenInside: propTypes.bool,
-    onClick: propTypes.func
+    listenInside: PropTypes.bool,
+    onClick: PropTypes.func,
+    containerStyle: PropTypes.string
   }
 
   static defaultProps = {
-    listenInside: false
+    listenInside: false,
+    containerStyle: ''
   }
 
   componentDidMount() {
@@ -29,7 +31,8 @@ export default class NativeClickListener extends React.Component {
 
   render() {
     return (
-      <div ref={ref=>this._container=ref}>
+      <div className={this.props.containerStyle}
+           ref={ref=>this._container=ref}>
         { this.props.children }
       </div>
     )
